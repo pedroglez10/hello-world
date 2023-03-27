@@ -1,11 +1,19 @@
 console.log('entro controlador');
 
-function onlynumbers(val) {
-  console.log(val)
-  var reg = new RegExp('^[0-9]$');
-  
-  if (reg.test(val))
-    return true;
-  
-  return false;
+function onlynumbers(evt) {
+  var theEvent = evt || window.event;
+
+  // Handle paste
+  if (theEvent.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[0-9]|\./;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
 }
